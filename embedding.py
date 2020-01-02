@@ -26,10 +26,12 @@ model = feedforward_neural_network(input_size=8, hidden=64, num_classes=8)
 criterion = nn.CrossEntropyLoss()
 optimizer = torch.optim.Adam(model.parameters(),lr=0.001,weight_decay=0.005)
 
+
 embedding = nn.Embedding(8, 8)
 embedding_y=[]
 embedding_x1=[]
 embedding_x2=[]
+
 with open ("X.txt",'r') as f:
     for line in f:
         x = line.strip().split()
@@ -86,3 +88,15 @@ for i in range(64):
     # correctTotal+=correct
 print('Accuracy of the model on the test : %f %%'%(correct/64.0*100.0))
 # print("Auccacy is correc:",correctTotal)
+
+num1=input("please input a number:")
+num2=input("please input a number:")
+x1=[]
+x1.append(int(num1))
+x2=[]
+x2.append(int(num2))
+x1=torch.LongTensor(x1)
+x2=torch.LongTensor(x2)
+y=model(embedding(x1),embedding(x2))
+_, predictes = torch.max(y, 1)
+print("The result is:",predictes.item())
